@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { SalePage } from "types/sales";
 import { formatLocalDate } from "utils/format";
 import { BASE_URL } from "utils/requests";
+import { saveAs } from "file-saver";
+import Papa from "papaparse";
 
 const DataTable = () => {
   const [page, setPage] = useState<SalePage>({
@@ -41,9 +43,30 @@ const DataTable = () => {
     }
   };
 
+  const exportToCSV = () => {
+    if (!page.content) return;
+
+    const csvData = page.content.map((sale) => ({
+      Date: formatLocalDate(sale.date, "dd/MM/yyyy"),
+      Seller: sale.seller.name,
+      "Customers Visited": sale.visited,
+      "Closed Deals": sale.deals,
+      Amount: sale.amount.toFixed(2),
+    }));
+
+    const csv = Papa.unparse(csvData);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    saveAs(blob, "sales_data.csv");
+  };
+
   return (
     <>
-      <Pagination page={page} onPageChange={changePage} />
+      <div className="d-flex justify-content-between mb-3">
+        <Pagination page={page} onPageChange={changePage} />
+        <button className="btn btn-primary" onClick={exportToCSV}>
+          Export to CSV
+        </button>
+      </div>
       <div className="table-responsive">
         <table className="table table-striped table-sm">
           <thead>

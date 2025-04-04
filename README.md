@@ -80,6 +80,12 @@ yarn add @types/react-router-dom -D
 - date-fns
 ```bash
 yarn add date-fns
+
+#add file-saver and papaparse
+
+yarn add file-saver
+yarn add papaparse
+
 ```
 ### Running the application locally
 ```bash
