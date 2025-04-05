@@ -84,7 +84,12 @@ yarn add date-fns
 #add file-saver and papaparse
 
 yarn add file-saver
+
+yarn add @types/file-saver -D
+
 yarn add papaparse
+
+yarn add @types/papaparse -D
 
 ```
 ### Running the application locally

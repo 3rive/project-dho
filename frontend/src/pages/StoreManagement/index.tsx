@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Footer from "components/Footer";
+import NavBar from "components/NavBar";
 
 const StoreManagement = () => {
   interface Store {
@@ -37,36 +39,38 @@ const StoreManagement = () => {
     setStores(stores.filter((store: any) => store.id !== id));
   };
 
-  return (
-    <div className="container">
-      <h1 className="text-primary py-3">Store Management</h1>
-      <div className="mb-3">
-        <input
-          type="text"
-          placeholder="Store Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="form-control mb-2"
-        />
-        <input
-          type="text"
-          placeholder="Store Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="form-control mb-2"
-        />
-        <button onClick={addStore} className="btn btn-primary">Add Store</button>
+    return (
+      <>
+      <NavBar />
+      <div className="container">
+        <h1>Store Management</h1>
+        <ul>
+          {stores.map((store) => (
+            <li key={store.id}>
+              {store.name} - {store.location}
+              <button onClick={() => deleteStore(store.id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
+        <div>
+          <input
+            type="text"
+            placeholder="Store Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Store Location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
+          <button onClick={addStore}>Add Store</button>
+        </div>
       </div>
-      <ul className="list-group">
-        {stores.map((store: any) => (
-          <li key={store.id} className="list-group-item d-flex justify-content-between align-items-center">
-            {store.name} - {store.location}
-            <button onClick={() => deleteStore(store.id)} className="btn btn-danger btn-sm">Delete</button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+      <Footer />
+      </>
+    );
 };
 
 export default StoreManagement;
