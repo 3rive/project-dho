@@ -1,4 +1,4 @@
-import ImgDsDark from 'assets/img/logoApp.svg';
+import ImgDsDark from 'assets/img/MSL.jpg';
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
@@ -19,20 +19,20 @@ const NavBar = () => {
               </Link>
             </li>
             <li className="nav-item mx-2">
-              <Link className="nav-link" to="/transactions">
-                Transactions
+              <Link className="nav-link" to="/stores">
+                Stores
               </Link>
             </li>
             <li className="nav-item mx-2">
-              <Link className="nav-link" to="/invoices">
-                Invoices
+              <Link className="nav-link" to="/products">
+                Products
               </Link>
             </li>
             <li className="nav-item mx-2">
               <Link className="nav-link" to="/expenses">
                 Expenses
               </Link>
-            </li>
+            </li>         
             <li className="nav-item mx-2 dropdown">
               <Link
                 className="nav-link dropdown-toggle"
