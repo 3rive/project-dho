@@ -1,8 +1,8 @@
 INSERT INTO tb_sellers(name, location, address, phoneNumber) VALUES ('Store 1', 'Location 1', 'Address 1', '6677819900');
 INSERT INTO tb_sellers(name, location, address, phoneNumber) VALUES ('Store 2', 'Location 2', 'Address 2', '0987654321');
 INSERT INTO tb_sellers(name, location, address, phoneNumber) VALUES ('Store 3', 'Location 3', 'Address 3', '1122334455');
-INSERT INTO tb_sellers(name, location, address, phoneNumber) VALUES ('Store 3', 'Location 4', 'Address 4', '5566778899');
-INSERT INTO tb_sellers(name, location, address, phoneNumber) VALUES ('Store 4', 'Location 5', 'Address 5', '6677889900');
+INSERT INTO tb_sellers(name, location, address, phoneNumber) VALUES ('Store 4', 'Location 4', 'Address 4', '5566778899');
+INSERT INTO tb_sellers(name, location, address, phoneNumber) VALUES ('Store 5', 'Location 5', 'Address 5', '6677889900');
 
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (5,0,0,0.0,'2025-04-01');
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (5,113,78,8290.0,'2025-03-31');
@@ -174,3 +174,4 @@ INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (3,53,35,16423.
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (1,14,8,7705.0,'2024-10-16');
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (2,71,18,6436.0,'2024-10-07');
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (3,78,60,6723.0,'2024-10-07');
+INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (5,78,60,6723.0,'2024-10-07');

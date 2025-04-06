@@ -1,6 +1,7 @@
 package com.devsuperior.dsvendas.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,10 @@ public class SaleService {
 	
 	@Autowired
 	private SellerRepository sellerRepo;
+
+	public double calculateTotalSales() {
+        return repository.sumTotalSales();
+    }
 	
 	@Transactional(readOnly = true)
 	public Page<SaleDTO> findAll(Pageable pageable){
@@ -31,6 +36,12 @@ public class SaleService {
 		// Lazy loading: when the entity is not loaded yet, it will be loaded when accessed.		
 		Page<Sale> result = repository.findAll(pageable);
 		return result.map(x -> new SaleDTO(x));	
+	}
+
+	@Transactional(readOnly = true)
+	public List<SaleDTO> viewAll(){	
+		List<Sale> result = repository.findAll();
+        return result.stream().map(x -> new SaleDTO(x)).collect(Collectors.toList());
 	}
 	
 	@Transactional(readOnly = true)

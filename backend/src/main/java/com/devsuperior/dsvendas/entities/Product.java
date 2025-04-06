@@ -14,7 +14,6 @@ public class Product {
     private String category; // New field
     private Double price;
     private Integer quantity;
-    private String imageUrl;
 
     // Getters and Setters
     public Long getId() {
@@ -55,13 +54,5 @@ public class Product {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 }

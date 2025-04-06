@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Footer from "components/Footer";
 import NavBar from "components/NavBar";
-import DataTable from "react-data-table-component"; // Install this library using `npm install react-data-table-component`
+import DataTable from "react-data-table-component";
 
 const StoreManagement = () => {
   interface Store {
@@ -24,7 +24,7 @@ const StoreManagement = () => {
   }, []);
 
   const fetchStores = async () => {
-    const response = await axios.get('http://localhost:8080/api/stores');
+    const response = await axios.get('http://localhost:8080/sellers');
     setStores(response.data);
   };
 
@@ -33,7 +33,7 @@ const StoreManagement = () => {
       alert('Please provide all store details');
       return;
     }
-    const response = await axios.post('http://localhost:8080/api/stores', {
+    const response = await axios.post('http://localhost:8080/sellers', {
       name,
       location,
       address,
@@ -47,7 +47,7 @@ const StoreManagement = () => {
   };
 
   const deleteStore = async (id: number) => {
-    await axios.delete(`http://localhost:8080/api/stores/${id}`);
+    await axios.delete(`http://localhost:8080/api/sellers/${id}`);
     setStores(stores.filter((store: any) => store.id !== id));
   };
 
@@ -90,14 +90,14 @@ const StoreManagement = () => {
     <>
       <NavBar />
       <div className="container mt-4">
-        <h1 className="text-center mb-4" style={{ fontWeight: 'bold', fontSize: '2rem' }}>
+        <h1 className="text-center mb-4" style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>
           Store Management
         </h1>
 
         {/* Add Store Form */}
-        <div className="card shadow-sm mb-5">
+        <div className="card shadow-sm mb-4">
           <div className="card-header bg-primary text-white">
-            <h3 className="mb-0" style={{ fontWeight: '600' }}>Add New Store</h3>
+            <h5 className="mb-0" style={{ fontWeight: '600' }}>Add New Store</h5>
           </div>
           <div className="card-body">
             <form
@@ -106,59 +106,63 @@ const StoreManagement = () => {
                 addStore();
               }}
             >
-              <div className="mb-3">
-                <label htmlFor="storeName" className="form-label">
-                  Store Name
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="storeName"
-                  placeholder="Enter store name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+              <div className="row g-2">
+                <div className="col-md-6">
+                  <label htmlFor="storeName" className="form-label small">
+                    Store Name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control form-control-sm"
+                    id="storeName"
+                    placeholder="Enter store name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="storeLocation" className="form-label small">
+                    Store Location
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control form-control-sm"
+                    id="storeLocation"
+                    placeholder="Enter store location"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="mb-3">
-                <label htmlFor="storeLocation" className="form-label">
-                  Store Location
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="storeLocation"
-                  placeholder="Enter store location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                />
+              <div className="row g-2 mt-2">
+                <div className="col-md-6">
+                  <label htmlFor="storeAddress" className="form-label small">
+                    Store Address
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control form-control-sm"
+                    id="storeAddress"
+                    placeholder="Enter store address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="phoneNumber" className="form-label small">
+                    Phone Number
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control form-control-sm"
+                    id="phoneNumber"
+                    placeholder="Enter phone number"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="mb-3">
-                <label htmlFor="storeAddress" className="form-label">
-                  Store Address
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="storeAddress"
-                  placeholder="Enter store address"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="phoneNumber" className="form-label">
-                  Phone Number
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="phoneNumber"
-                  placeholder="Enter phone number"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-              </div>
-              <button type="submit" className="btn btn-primary w-100">
+              <button type="submit" className="btn btn-primary btn-sm w-100 mt-3">
                 Add Store
               </button>
             </form>
@@ -168,9 +172,9 @@ const StoreManagement = () => {
         {/* Store DataTable */}
         <div className="card shadow-sm">
           <div className="card-header bg-secondary text-white">
-            <h3 className="mb-0" style={{ fontWeight: '600' }}>Existing Stores</h3>
+            <h5 className="mb-0" style={{ fontWeight: '600' }}>Existing Stores</h5>
           </div>
-          <div className="card-body">
+          <div className="card-body p-2">
             <DataTable
               columns={columns}
               data={stores}
