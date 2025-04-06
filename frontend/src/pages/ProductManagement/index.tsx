@@ -1,91 +1,194 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Footer from "components/Footer";
 import NavBar from "components/NavBar";
+import DataTable from "react-data-table-component"; // Install this library using `npm install react-data-table-component`
 
 const ProductManagement = () => {
-  const [products, setProducts] = useState([]);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [image, setImage] = useState<File | null>(null);
+  interface Product {
+    id: number;
+    name: string;
+    category: string;
+    price: number;
+    stock: number;
+  }
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [name, setName] = useState('');
+  const [category, setCategory] = useState('');
+  const [price, setPrice] = useState<number | ''>('');
+  const [stock, setStock] = useState<number | ''>('');
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
   const fetchProducts = async () => {
-    const response = await axios.get("http://localhost:8080/api/products");
+    const response = await axios.get('http://localhost:8080/api/products');
     setProducts(response.data);
   };
 
-  const addProduct = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("price", price);
-    formData.append("quantity", quantity);
-    if (image) {
-      formData.append("image", image);
+  const addProduct = async () => {
+    if (!name || !category || !price || !stock) {
+      alert('Please provide all product details');
+      return;
     }
-
-    await axios.post("http://localhost:8080/api/products", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    fetchProducts();
+    try {
+      const response = await axios.post('http://localhost:8080/api/products', {
+        name,
+        category,
+        price,
+        quantity: stock, // Map 'stock' to 'quantity' for backend compatibility
+        imageUrl: '', // Optional: Add a default or empty image URL
+      });
+      setProducts([...products, response.data]); // Update the state with the new product
+      setName('');
+      setCategory('');
+      setPrice('');
+      setStock('');
+    } catch (error) {
+      console.error('Error adding product:', error);
+      alert('Failed to add product. Please try again.');
+    }
   };
 
+  const deleteProduct = async (id: number) => {
+    await axios.delete(`http://localhost:8080/api/products/${id}`);
+    setProducts(products.filter((product: any) => product.id !== id));
+  };
+
+  // Define columns for the DataTable
+  const columns = [
+    {
+      name: "Product Name",
+      selector: (row: Product) => row.name,
+      sortable: true,
+    },
+    {
+      name: "Category",
+      selector: (row: Product) => row.category,
+      sortable: true,
+    },
+    {
+      name: "Price",
+      selector: (row: Product) => `$${row.price.toFixed(2)}`,
+      sortable: true,
+    },
+    {
+      name: "Stock",
+      selector: (row: Product) => row.stock,
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row: Product) => (
+        <button
+          className="btn btn-outline-danger btn-sm"
+          onClick={() => deleteProduct(row.id)}
+        >
+          Delete
+        </button>
+      ),
+    },
+  ];
+
   return (
-        <>
-          <NavBar />
-    <div>
-      <h2>Product Management</h2>
-      <form onSubmit={addProduct}>
-        <div>
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+    <>
+      <NavBar />
+      <div className="container mt-4">
+        <h1 className="text-center mb-4" style={{ fontWeight: 'bold', fontSize: '2rem' }}>
+          Product Management
+        </h1>
+
+        {/* Add Product Form */}
+        <div className="card shadow-sm mb-5">
+          <div className="card-header bg-primary text-white">
+            <h3 className="mb-0" style={{ fontWeight: '600' }}>Add New Product</h3>
+          </div>
+          <div className="card-body">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                addProduct();
+              }}
+            >
+              <div className="mb-3">
+                <label htmlFor="productName" className="form-label">
+                  Product Name
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="productName"
+                  placeholder="Enter product name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="productCategory" className="form-label">
+                  Category
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="productCategory"
+                  placeholder="Enter product category"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="productPrice" className="form-label">
+                  Price
+                </label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="productPrice"
+                  placeholder="Enter product price"
+                  value={price}
+                  onChange={(e) => setPrice(Number(e.target.value))}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="productStock" className="form-label">
+                  Stock
+                </label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="productStock"
+                  placeholder="Enter product stock"
+                  value={stock}
+                  onChange={(e) => setStock(Number(e.target.value))}
+                />
+              </div>
+              <button type="submit" className="btn btn-primary w-100">
+                Add Product
+              </button>
+            </form>
+          </div>
         </div>
-        <div>
-          <input
-            type="number"
-            placeholder="Price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
+
+        {/* Product DataTable */}
+        <div className="card shadow-sm">
+          <div className="card-header bg-secondary text-white">
+            <h3 className="mb-0" style={{ fontWeight: '600' }}>Existing Products</h3>
+          </div>
+          <div className="card-body">
+            <DataTable
+              columns={columns}
+              data={products}
+              pagination
+              highlightOnHover
+              striped
+            />
+          </div>
         </div>
-        <div>
-          <input
-            type="number"
-            placeholder="Quantity"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            type="file"
-            onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
-          />
-        </div>
-        <button type="submit">Add Product</button>
-      </form>
-      <ul>
-        {products.map((product: any) => (
-          <li key={product.id}>
-            <img src={`/${product.imageUrl}`} alt={product.name} width="50" />
-            {product.name} - ${product.price} - {product.quantity} units
-          </li>
-        ))}
-      </ul>
-    </div>
-          <Footer />
-          </>
+      </div>
+      <Footer />
+    </>
   );
 };
 

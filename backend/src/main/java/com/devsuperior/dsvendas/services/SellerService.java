@@ -12,16 +12,32 @@ import com.devsuperior.dsvendas.repositories.SellerRepository;
 
 @Service
 public class SellerService {
-	
-	@Autowired
-	private SellerRepository repository;
-	
-	public List<SellerDTO> findAll() {
-		
-		List<Seller> result = repository.findAll();
-		
-		return result.stream().map(x -> new SellerDTO(x)).collect(Collectors.toList());
-		
-	}
+    
+    @Autowired
+    private SellerRepository repository;
+    
+    // Fetch all sellers
+    public List<SellerDTO> findAll() {
+        List<Seller> result = repository.findAll();
+        return result.stream().map(x -> new SellerDTO(x)).collect(Collectors.toList());
+    }
 
+    // Add a new store
+    public SellerDTO addStore(SellerDTO dto) {
+        Seller entity = new Seller();
+        entity.setName(dto.getName());
+        entity.setLocation(dto.getLocation());
+        entity.setAddress(dto.getAddress());
+        entity.setPhonenumber(dto.getPhoneNumber());
+        entity = repository.save(entity);
+        return new SellerDTO(entity);
+    }
+
+    public void deleteSeller(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("Store with ID " + id + " does not exist.");
+        }
+    }
 }

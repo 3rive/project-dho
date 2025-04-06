@@ -27,9 +27,8 @@ public class SaleService {
 	@Transactional(readOnly = true)
 	public Page<SaleDTO> findAll(Pageable pageable){
 		
-		sellerRepo.findAll(); // So trazendo para a memoria para evitar hibernate ir várias vezes no banco. 
-							  // Podemos empregar desta maneira por que temos poucos vendedores (só 5, não 1000).
-		
+		sellerRepo.findAll(); // Eager loading to avoid LazyInitializationException
+		// Lazy loading: when the entity is not loaded yet, it will be loaded when accessed.		
 		Page<Sale> result = repository.findAll(pageable);
 		return result.map(x -> new SaleDTO(x));	
 	}

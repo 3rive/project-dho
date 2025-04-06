@@ -1,9 +1,11 @@
 import ImgDsDark from 'assets/img/MSL.jpg';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChartBar, faStore, faBoxes, faFileAlt } from '@fortawesome/free-solid-svg-icons';
 
 const NavBar = () => {
   return (
-    <div className="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-light border-bottom shadow-sm">
+    <div className="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-primary border-bottom shadow-sm">
       <div className="container d-flex justify-content-between align-items-center">
         {/* Logo Section */}
         <Link to="/">
@@ -13,93 +15,141 @@ const NavBar = () => {
         {/* Navigation Links */}
         <nav className="d-flex">
           <ul className="nav nav-pills d-flex flex-row">
-            <li className="nav-item mx-2">
-              <Link className="nav-link" to="/dashboard">
-                Dashboard
-              </Link>
-            </li>
-            <li className="nav-item mx-2">
-              <Link className="nav-link" to="/stores">
-                Stores
-              </Link>
-            </li>
-            <li className="nav-item mx-2">
-              <Link className="nav-link" to="/products">
-                Products
-              </Link>
-            </li>
-            <li className="nav-item mx-2">
-              <Link className="nav-link" to="/expenses">
-                Expenses
-              </Link>
-            </li>         
+            {/* Dashboard Dropdown */}
             <li className="nav-item mx-2 dropdown">
-              <Link
-                className="nav-link dropdown-toggle"
-                to="#"
-                id="reportsDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Reports
-              </Link>
-              <ul className="dropdown-menu" aria-labelledby="reportsDropdown">
-                <li>
-                  <Link className="dropdown-item" to="/reports/summary">
-                    Summary
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/reports/profit-loss">
-                    Profit & Loss
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/reports/balance-sheet">
-                    Balance Sheet
-                  </Link>
-                </li>
-              </ul>
+              <div className="btn-group">
+                <Link
+                  className="btn btn-light text-primary"
+                  to="/dashboard"
+                >
+                  <FontAwesomeIcon icon={faChartBar} /> Dashboard
+                </Link>
+                <button
+                  type="button"
+                  className="btn btn-light text-primary dropdown-toggle dropdown-toggle-split"
+                  id="dashboardDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <span className="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul className="dropdown-menu bg-light text-primary" aria-labelledby="dashboardDropdown">
+                  <li>
+                    <Link className="dropdown-item text-primary" to="/dashboard/sales">
+                      Sales Dashboard
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item text-primary" to="/dashboard/inventory">
+                      Inventory Dashboard
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </li>
-            <li className="nav-item mx-2">
-              <Link className="nav-link" to="/accounts">
-                Accounts
-              </Link>
-            </li>
+
+            {/* Stores Dropdown */}
             <li className="nav-item mx-2 dropdown">
-              <Link
-                className="nav-link dropdown-toggle"
-                to="#"
-                id="settingsDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Settings
-              </Link>
-              <ul className="dropdown-menu" aria-labelledby="settingsDropdown">
-                <li>
-                  <Link className="dropdown-item" to="/settings/profile">
-                    Profile
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/settings/preferences">
-                    Preferences
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/settings/integrations">
-                    Integrations
-                  </Link>
-                </li>
-              </ul>
+              <div className="btn-group">
+                <Link
+                  className="btn btn-light text-primary"
+                  to="/stores"
+                >
+                  <FontAwesomeIcon icon={faStore} /> Stores
+                </Link>
+                <button
+                  type="button"
+                  className="btn btn-light text-primary dropdown-toggle dropdown-toggle-split"
+                  id="storesDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <span className="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul className="dropdown-menu bg-light text-primary" aria-labelledby="storesDropdown">
+                  <li>
+                    <Link className="dropdown-item text-primary" to="/stores/add">
+                      Add Store
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item text-primary" to="/sellers/view">
+                      View Stores
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </li>
-            <li className="nav-item mx-2">
-              <Link className="nav-link" to="/help">
-                Help
-              </Link>
+
+            {/* Inventory Dropdown */}
+            <li className="nav-item mx-2 dropdown">
+              <div className="btn-group">
+                <Link
+                  className="btn btn-light text-primary"
+                  to="/inventory/dashboard"
+                >
+                  <FontAwesomeIcon icon={faBoxes} /> Inventory
+                </Link>
+                <button
+                  type="button"
+                  className="btn btn-light text-primary dropdown-toggle dropdown-toggle-split"
+                  id="inventoryDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <span className="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul className="dropdown-menu bg-light text-primary" aria-labelledby="inventoryDropdown">
+                  <li>
+                    <Link className="dropdown-item text-primary" to="/products">
+                      Add Products
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item text-primary" to="/products">
+                      View Products
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            {/* Reports Dropdown */}
+            <li className="nav-item mx-2 dropdown">
+              <div className="btn-group">
+                <Link
+                  className="btn btn-light text-primary"
+                  to="/reports/dashboard"
+                >
+                  <FontAwesomeIcon icon={faFileAlt} /> Reports
+                </Link>
+                <button
+                  type="button"
+                  className="btn btn-light text-primary dropdown-toggle dropdown-toggle-split"
+                  id="reportsDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <span className="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul className="dropdown-menu bg-light text-primary" aria-labelledby="reportsDropdown">
+                  <li>
+                    <Link className="dropdown-item text-primary" to="/reports/tax">
+                      Tax Reports
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item text-primary" to="/reports/sales">
+                      Sales Reports
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item text-primary" to="/reports/inventory">
+                      Inventory Reports
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </nav>

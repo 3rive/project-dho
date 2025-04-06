@@ -19,6 +19,8 @@ const DataTable = () => {
   const [activePage, setActivePage] = useState(0);
   const [sortField, setSortField] = useState("date");
   const [sortDirection, setSortDirection] = useState("desc");
+  const [filter, setFilter] = useState(""); // State for filter input
+  const [filteredData, setFilteredData] = useState<SalePage | null>(null); // State for filtered data
 
   useEffect(() => {
     axios
@@ -27,6 +29,7 @@ const DataTable = () => {
       )
       .then((response) => {
         setPage(response.data);
+        setFilteredData(response.data); // Initialize filtered data
       });
   }, [activePage, sortField, sortDirection]);
 
@@ -43,10 +46,24 @@ const DataTable = () => {
     }
   };
 
-  const exportToCSV = () => {
-    if (!page.content) return;
+  const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toLowerCase();
+    setFilter(value);
 
-    const csvData = page.content.map((sale) => ({
+    if (value === "") {
+      setFilteredData(page); // Reset to original data if filter is empty
+    } else {
+      const filteredContent = page.content?.filter((sale) =>
+        sale.seller.name.toLowerCase().includes(value)
+      );
+      setFilteredData({ ...page, content: filteredContent });
+    }
+  };
+
+  const exportToCSV = () => {
+    if (!filteredData?.content) return;
+
+    const csvData = filteredData.content.map((sale) => ({
       Date: formatLocalDate(sale.date, "dd/MM/yyyy"),
       Seller: sale.seller.name,
       "Customers Visited": sale.visited,
@@ -66,6 +83,15 @@ const DataTable = () => {
         <button className="btn btn-primary" onClick={exportToCSV}>
           Export to CSV
         </button>
+      </div>
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Filter by seller name"
+          value={filter}
+          onChange={handleFilter}
+        />
       </div>
       <div className="table-responsive">
         <table className="table table-striped table-sm">
@@ -89,7 +115,7 @@ const DataTable = () => {
             </tr>
           </thead>
           <tbody>
-            {page.content?.map((x) => (
+            {filteredData?.content?.map((x) => (
               <tr key={x.id}>
                 <td>{formatLocalDate(x.date, "dd/MM/yyyy")}</td>
                 <td>{x.seller.name}</td>
