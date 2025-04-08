@@ -54,5 +54,9 @@ public class SaleService {
 		return repository.successGroupedBySeller();		
 	}
 	
+	@Transactional
+    public Sale saveSale(Sale sale) {
+        return repository.save(sale);
+    }
 
 }

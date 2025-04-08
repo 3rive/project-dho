@@ -1,14 +1,20 @@
 package com.devsuperior.dsvendas.entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "tb_sales")
@@ -18,40 +24,34 @@ public class Sale {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Integer visited;
-	private String storeName;
-
-	public String getStoreName() {
-		return storeName;
-	}
-
-	public void setStoreName(String storeName) {
-		this.storeName = storeName;
-	}
-	private String sellerName;
-
-	public String getSellerName() {
-		return sellerName;
-	}
-
-	public void setSellerName(String sellerName) {
-		this.sellerName = sellerName;
-	}
 	private Integer deals;
 	private Double amount;
 	private LocalDate date;
 	
+	@JsonIgnoreProperties({"sales"})
 	@ManyToOne
 	@JoinColumn(name = "seller_id")
 	private Seller seller;
+
+	@ManyToMany
+    @JoinTable(name = "tb_sale_product",
+        joinColumns = @JoinColumn(name = "sale_id"),
+        inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> products = new ArrayList<>();
 	
 	public Sale () {
 	}
+    // Getters and Setters
+    public List<Product> getProducts() {
+        return products;
+    }
 
-	public Sale(Long id, Integer visited, String storeName, String sellerName, Integer deals, Double amount, LocalDate date, Seller seller) {		
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+	public Sale(Long id, Integer visited, Integer deals, Double amount, LocalDate date, Seller seller) {		
 		this.id = id;
 		this.visited = visited;
-		this.storeName = storeName;
-		this.sellerName = sellerName;
 		this.deals = deals;
 		this.amount = amount;
 		this.date = date;

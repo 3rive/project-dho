@@ -1,19 +1,35 @@
 package com.devsuperior.dsvendas.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@Table(name = "tb_products")
+@JsonIgnoreProperties({"sales"})
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
-    private String category; // New field
+    private String category;
     private Double price;
     private Integer quantity;
+
+
+    @ManyToMany(mappedBy = "products")
+    private List<Sale> sales = new ArrayList<>();
 
     // Getters and Setters
     public Long getId() {
@@ -54,5 +70,13 @@ public class Product {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public List<Sale> getSales() {
+        return sales;
+    }
+
+    public void setSales(List<Sale> sales) {
+        this.sales = sales;
     }
 }

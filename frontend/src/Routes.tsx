@@ -4,6 +4,9 @@ import StoreManagement from 'pages/StoreManagement';
 import ProductManagement from "pages/ProductManagement";
 import ViewSales from "pages/ViewSales";
 import ViewSellers from "pages/ViewSellers";
+import AddSales from 'pages/AddSale';
+import ViewProducts from 'pages/ViewProduct';
+import ViewReports from 'pages/ViewReports';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const RoutesComponent = () => {
@@ -16,6 +19,9 @@ const RoutesComponent = () => {
         <Route path="/products" element={<ProductManagement />} />
         <Route path="/sales/view" element={<ViewSales />} />
         <Route path="/sellers/view" element={<ViewSellers />} />
+        <Route path="/sales/add" element={<AddSales />} />
+        <Route path="/products/view" element={<ViewProducts />} />
+        <Route path="/reports/view" element={<ViewReports />} />
       </Routes>
     </BrowserRouter>
   );

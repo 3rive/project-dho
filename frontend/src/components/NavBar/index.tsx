@@ -83,11 +83,6 @@ const NavBar = () => {
                       Add Store
                     </Link>
                   </li>
-                  <li>
-                    <Link className="dropdown-item text-primary" to="/sellers/view">
-                      View Stores
-                    </Link>
-                  </li>
                 </ul>
               </div>
             </li>
@@ -95,7 +90,7 @@ const NavBar = () => {
             {/* Inventory Dropdown */}
             <li className="nav-item mx-2 dropdown">
               <div className="btn-group">
-                <Link className="btn btn-light text-primary" to="/inventory/dashboard">
+                <Link className="btn btn-light text-primary" to="/products/view">
                   <FontAwesomeIcon icon={faBoxes} /> Inventory
                 </Link>
                 <button
@@ -113,9 +108,29 @@ const NavBar = () => {
                       Add Products
                     </Link>
                   </li>
+                </ul>
+              </div>
+            </li>
+
+            {/* Sales Dropdown */}
+            <li className="nav-item mx-2 dropdown">
+              <div className="btn-group">
+                <Link className="btn btn-light text-primary" to="/sales/view">
+                  <FontAwesomeIcon icon={faShoppingCart} /> Sales
+                </Link>
+                <button
+                  type="button"
+                  className="btn btn-light text-primary dropdown-toggle dropdown-toggle-split"
+                  id="salesDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <span className="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul className="dropdown-menu bg-light text-primary" aria-labelledby="salesDropdown">
                   <li>
-                    <Link className="dropdown-item text-primary" to="/products">
-                      View Products
+                    <Link className="dropdown-item text-primary" to="/sales/add">
+                      Add Sale
                     </Link>
                   </li>
                 </ul>
@@ -123,45 +138,18 @@ const NavBar = () => {
             </li>
 
             {/* Reports Dropdown */}
-            <li className="nav-item mx-2 dropdown">
+            <li className="nav-item mx-2">
               <div className="btn-group">
-                <Link className="btn btn-light text-primary" to="/reports/dashboard">
+                <Link className="btn btn-light text-primary" to="/reports/view">
                   <FontAwesomeIcon icon={faFileAlt} /> Reports
                 </Link>
                 <button
                   type="button"
-                  className="btn btn-light text-primary dropdown-toggle dropdown-toggle-split"
+                  className="btn btn-light text-primary"
                   id="reportsDropdown"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
                 >
-                  <span className="visually-hidden">Toggle Dropdown</span>
                 </button>
-                <ul className="dropdown-menu bg-light text-primary" aria-labelledby="reportsDropdown">
-                  <li>
-                    <Link className="dropdown-item text-primary" to="/reports/tax">
-                      Tax Reports
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item text-primary" to="/reports/sales">
-                      Sales Reports
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item text-primary" to="/reports/inventory">
-                      Inventory Reports
-                    </Link>
-                  </li>
-                </ul>
               </div>
-            </li>
-
-            {/* View Sales Link */}
-            <li className="nav-item mx-2">
-              <Link className="btn btn-light text-primary" to="/sales/view">
-                <FontAwesomeIcon icon={faShoppingCart} /> View Sales
-              </Link>
             </li>
           </ul>
         </nav>

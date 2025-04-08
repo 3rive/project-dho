@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "tb_sellers")
 public class Seller {
@@ -45,6 +47,7 @@ public class Seller {
 		return phonenumber;
 	}
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "seller")
 	private List<Sale> sales = new ArrayList<>();
 	
@@ -75,4 +78,8 @@ public class Seller {
 	public List<Sale> getSales() {
 		return sales;
 	}	
+
+    public String getPhoneNumber() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
