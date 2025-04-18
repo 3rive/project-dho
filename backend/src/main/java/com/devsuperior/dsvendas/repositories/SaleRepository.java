@@ -21,5 +21,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long>{
 
 	@Query("SELECT SUM(s.amount) FROM Sale s")
     Double sumTotalSales();
-		
+	
+	@Query("SELECT s FROM Sale s JOIN FETCH s.seller ORDER BY s.date DESC")
+    List<Sale> findRecentSales();
 }

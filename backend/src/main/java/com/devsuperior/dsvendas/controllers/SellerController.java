@@ -21,6 +21,7 @@ public class SellerController {
 	
 	@Autowired
 	private SellerService service;
+
 	@PostMapping
 	public ResponseEntity<SellerDTO> addSeller(@RequestBody SellerDTO dto) {
 		SellerDTO newSeller = service.addStore(dto);
@@ -38,4 +39,9 @@ public class SellerController {
 		return ResponseEntity.ok(list);
 	}
 
+    @GetMapping("/top")
+    public ResponseEntity<List<SellerDTO>> getTopSellers() {
+        List<SellerDTO> topSellers = service.findTopSellers();
+        return ResponseEntity.ok(topSellers);
+    }
 }

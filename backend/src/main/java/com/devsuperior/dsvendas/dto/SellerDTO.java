@@ -13,6 +13,7 @@ public class SellerDTO implements Serializable {
     private String location;
     private String address;
     private String phoneNumber;
+    private Double totalSales;
 
     public SellerDTO() {
     }
@@ -32,6 +33,13 @@ public class SellerDTO implements Serializable {
         address = entity.getAddress();
         phoneNumber = entity.getPhonenumber();
     }
+
+    public SellerDTO(Long id, String name, Double totalSales) {
+        this.id = id;
+        this.name = name;
+        this.totalSales = totalSales;
+    }
+
 
     public Long getId() {
         return id;
@@ -71,5 +79,13 @@ public class SellerDTO implements Serializable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Double getTotalSales() {
+        return totalSales;
+    }
+
+    public void setTotalSales(Double totalSales) {
+        this.totalSales = totalSales;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.devsuperior.dsvendas.dto.SellerDTO;
+import com.devsuperior.dsvendas.entities.Sale;
 import com.devsuperior.dsvendas.entities.Seller;
 import com.devsuperior.dsvendas.repositories.SellerRepository;
 
@@ -31,6 +32,13 @@ public class SellerService {
         entity.setPhonenumber(dto.getPhoneNumber());
         entity = repository.save(entity);
         return new SellerDTO(entity);
+    }
+
+    public List<SellerDTO> findTopSellers() {
+        return repository.findTopSellers().stream()
+                .map(seller -> new SellerDTO(seller.getId(), seller.getName(), seller.getSales().stream()
+                        .mapToDouble(Sale::getAmount).sum()))
+                .collect(Collectors.toList());
     }
 
     public void deleteSeller(Long id) {

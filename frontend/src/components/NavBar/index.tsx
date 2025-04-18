@@ -1,8 +1,57 @@
 import React, { useState, useEffect } from "react";
-import ImgDsDark from "assets/img/MSL.jpg";
+import ImgDsDark from "assets/img/store_logo.jpg";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartBar, faStore, faBoxes, faFileAlt, faShoppingCart, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+
+// Reusable NavItem Component
+const NavItem = ({ to, icon, label }: { to: string; icon: any; label: string }) => {
+  return (
+    <li className="nav-item mx-2">
+      <Link className="btn btn-light text-primary" to={to}>
+        <FontAwesomeIcon icon={icon} /> {label}
+      </Link>
+    </li>
+  );
+};
+
+// Reusable DropdownNavItem Component
+const DropdownNavItem = ({
+  mainLink,
+  dropdownItems,
+  icon,
+}: {
+  mainLink: { to: string; label: string };
+  dropdownItems: { to: string; label: string }[];
+  icon: any;
+}) => {
+  return (
+    <li className="nav-item mx-2 dropdown">
+      <div className="btn-group">
+        <Link className="btn btn-light text-primary" to={mainLink.to}>
+          <FontAwesomeIcon icon={icon} /> {mainLink.label}
+        </Link>
+        <button
+          type="button"
+          className="btn btn-light text-primary dropdown-toggle dropdown-toggle-split"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <span className="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul className="dropdown-menu bg-light text-primary">
+          {dropdownItems.map((item, index) => (
+            <li key={index}>
+              <Link className="dropdown-item text-primary" to={item.to}>
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </li>
+  );
+};
 
 const NavBar = () => {
   const [currentTime, setCurrentTime] = useState<string>("");
@@ -32,125 +81,42 @@ const NavBar = () => {
         {/* Navigation Links */}
         <nav className="d-flex">
           <ul className="nav nav-pills d-flex flex-row">
-            {/* Dashboard Dropdown */}
-            <li className="nav-item mx-2 dropdown">
-              <div className="btn-group">
-                <Link className="btn btn-light text-primary" to="/dashboard">
-                  <FontAwesomeIcon icon={faChartBar} /> Dashboard
-                </Link>
-                <button
-                  type="button"
-                  className="btn btn-light text-primary dropdown-toggle dropdown-toggle-split"
-                  id="dashboardDropdown"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <span className="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <ul className="dropdown-menu bg-light text-primary" aria-labelledby="dashboardDropdown">
-                  <li>
-                    <Link className="dropdown-item text-primary" to="/dashboard">
-                      Sales Dashboard
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item text-primary" to="/dashboard">
-                      Inventory Dashboard
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </li>
+            {/* Dashboard */}
+            <DropdownNavItem
+              mainLink={{ to: "/dashboard", label: "Dashboard" }}
+              dropdownItems={[
+                { to: "/dashboard", label: "Sales Dashboard" },
+                { to: "/dashboard", label: "Inventory Dashboard" },
+              ]}
+              icon={faChartBar}
+            />
 
-            {/* Stores Dropdown */}
-            <li className="nav-item mx-2 dropdown">
-              <div className="btn-group">
-                <Link className="btn btn-light text-primary" to="/sellers/view">
-                  <FontAwesomeIcon icon={faStore} /> Stores
-                </Link>
-                <button
-                  type="button"
-                  className="btn btn-light text-primary dropdown-toggle dropdown-toggle-split"
-                  id="storesDropdown"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <span className="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <ul className="dropdown-menu bg-light text-primary" aria-labelledby="storesDropdown">
-                  <li>
-                    <Link className="dropdown-item text-primary" to="/sellers/add">
-                      Add Store
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </li>
+            {/* Stores */}
+            <DropdownNavItem
+              mainLink={{ to: "/sellers/view", label: "Stores" }}
+              dropdownItems={[{ to: "/sellers/add", label: "Add Store" }]}
+              icon={faStore}
+            />
 
-            {/* Inventory Dropdown */}
-            <li className="nav-item mx-2 dropdown">
-              <div className="btn-group">
-                <Link className="btn btn-light text-primary" to="/products/view">
-                  <FontAwesomeIcon icon={faBoxes} /> Inventory
-                </Link>
-                <button
-                  type="button"
-                  className="btn btn-light text-primary dropdown-toggle dropdown-toggle-split"
-                  id="inventoryDropdown"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <span className="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <ul className="dropdown-menu bg-light text-primary" aria-labelledby="inventoryDropdown">
-                  <li>
-                    <Link className="dropdown-item text-primary" to="/products">
-                      Add Products
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </li>
+            {/* Inventory */}
+            <DropdownNavItem
+              mainLink={{ to: "/products/view", label: "Inventory" }}
+              dropdownItems={[{ to: "/products", label: "Add Products" }]}
+              icon={faBoxes}
+            />
 
-            {/* Sales Dropdown */}
-            <li className="nav-item mx-2 dropdown">
-              <div className="btn-group">
-                <Link className="btn btn-light text-primary" to="/sales/view">
-                  <FontAwesomeIcon icon={faShoppingCart} /> Sales
-                </Link>
-                <button
-                  type="button"
-                  className="btn btn-light text-primary dropdown-toggle dropdown-toggle-split"
-                  id="salesDropdown"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <span className="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <ul className="dropdown-menu bg-light text-primary" aria-labelledby="salesDropdown">
-                  <li>
-                    <Link className="dropdown-item text-primary" to="/sales/add">
-                      Add Sale
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </li>
+            {/* Sales */}
+            <DropdownNavItem
+              mainLink={{ to: "/sales/view", label: "Sales" }}
+              dropdownItems={[
+                { to: "/sales/add", label: "Add Sale" },
+                { to: "/sales/recent", label: "Recent Sales" }, // Added Recent Sales link
+              ]}
+              icon={faShoppingCart}
+            />
 
-            {/* Reports Dropdown */}
-            <li className="nav-item mx-2">
-              <div className="btn-group">
-                <Link className="btn btn-light text-primary" to="/reports/view">
-                  <FontAwesomeIcon icon={faFileAlt} /> Reports
-                </Link>
-                <button
-                  type="button"
-                  className="btn btn-light text-primary"
-                  id="reportsDropdown"
-                >
-                </button>
-              </div>
-            </li>
+            {/* Reports */}
+            <NavItem to="/reports/view" icon={faFileAlt} label="Reports" />
           </ul>
         </nav>
 

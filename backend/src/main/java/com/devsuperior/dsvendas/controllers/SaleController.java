@@ -48,6 +48,12 @@ public class SaleController {
 		return ResponseEntity.ok(list);
 	}
 
+    @GetMapping("/recent")
+    public ResponseEntity<List<SaleDTO>> getRecentSales() {
+        List<SaleDTO> recentSales = service.findRecentSales();
+        return ResponseEntity.ok(recentSales);
+    }
+
 @PostMapping("/add")
 public ResponseEntity<SaleDTO> addSale(@RequestBody Map<String, Object> payload) {
     System.out.println("Payload: " + payload); // Debugging: Log the payload

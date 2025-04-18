@@ -3,9 +3,50 @@
     --color-primary: #FF8400;
 }
 
-html, body {
+html {
     height: 100%;
     font-family: "Ubuntu", sans-serif;
+}
+
+/* Global font size */
+body {
+  font-size: 0.875rem; /* Reduced font size (14px) */
+}
+
+/* Reduce button size */
+button, .btn {
+  font-size: 0.75rem; /* Reduced button font size (12px) */
+  padding: 0.25rem 0.5rem; /* Smaller padding */
+}
+
+/* Reduce input and select size */
+input, select, textarea {
+  font-size: 0.75rem; /* Reduced input font size (12px) */
+  padding: 0.25rem 0.5rem; /* Smaller padding */
+}
+
+/* Reduce table font size */
+table {
+  font-size: 0.75rem; /* Reduced table font size (12px) */
+}
+
+th, td {
+  padding: 0.5rem; /* Smaller padding for table cells */
+}
+
+/* Reduce navbar font size */
+.navbar, .nav-item, .nav-link {
+  font-size: 0.75rem; /* Reduced navbar font size (12px) */
+}
+
+/* Reduce card header and body font size */
+.card-header, .card-body {
+  font-size: 0.75rem; /* Reduced card font size (12px) */
+}
+
+/* Reduce heading sizes */
+h1, h2, h3, h4, h5, h6 {
+  font-size: calc(0.875rem + 0.25rem); /* Dynamically adjust heading sizes */
 }
 
 #root {

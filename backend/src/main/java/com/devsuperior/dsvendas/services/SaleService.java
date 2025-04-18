@@ -53,7 +53,25 @@ public class SaleService {
 	public List<SaleSuccessDTO> successGroupedBySeller(){
 		return repository.successGroupedBySeller();		
 	}
-	
+	@Transactional(readOnly = true)
+	public List<SaleDTO> findRecentSales() {
+            System.out.println("DEBUG: Starting findRecentSales method...");
+
+    // Fetch recent sales from the repository
+    List<Sale> recentSales = repository.findRecentSales();
+    System.out.println("DEBUG: Fetched recent sales from repository: " + recentSales);
+
+    // Map the sales to SaleDTO
+    List<SaleDTO> saleDTOs = recentSales.stream()
+            .map(sale -> {
+                System.out.println("DEBUG: Mapping Sale to SaleDTO - Sale ID: " + sale.getId());
+                return new SaleDTO(sale.getId(), sale.getDate(), sale.getAmount(), sale.getSeller().getName());
+            })
+            .collect(Collectors.toList());
+
+    System.out.println("DEBUG: Completed mapping to SaleDTOs: " + saleDTOs);
+    return saleDTOs;
+    }
 	@Transactional
     public Sale saveSale(Sale sale) {
         return repository.save(sale);

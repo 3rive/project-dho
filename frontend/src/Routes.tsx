@@ -7,6 +7,8 @@ import ViewSellers from "pages/ViewSellers";
 import AddSales from 'pages/AddSale';
 import ViewProducts from 'pages/ViewProduct';
 import ViewReports from 'pages/ViewReports';
+import Login from 'pages/Login';
+import RecentSales from 'pages/RecentSales'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const RoutesComponent = () => {
@@ -14,6 +16,7 @@ const RoutesComponent = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/sellers/add" element={<StoreManagement />} />
         <Route path="/products" element={<ProductManagement />} />
@@ -22,6 +25,7 @@ const RoutesComponent = () => {
         <Route path="/sales/add" element={<AddSales />} />
         <Route path="/products/view" element={<ViewProducts />} />
         <Route path="/reports/view" element={<ViewReports />} />
+        <Route path="/sales/recent" element={<RecentSales />} />
       </Routes>
     </BrowserRouter>
   );
